@@ -18,8 +18,11 @@ public class BusquedaBFS {
         Operaciones n;
         n= new Operaciones(5,7);
         n.crearMatriz();
-        System.out.println("");
-        System.out.println("");
+        n.setxIni(0);
+        n.setyIni(0);
+        n.setxFin(4);
+        n.setyFin(3);
+        n.asigIniFin();
         n.asignarParedes();
         n.imprimirMatriz();
         n.realizaRecorrido();
@@ -27,6 +30,9 @@ public class BusquedaBFS {
         System.out.println("");
         System.out.println("");
         n.imprimirMatriz();
+        n.imprimiListaW();
+        n.buscarRuta();
+        n.imprimiListaGana();
     }
     
 }

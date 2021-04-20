@@ -16,6 +16,7 @@ public class Operaciones {
     private Nodo matriz[][];
     private LinkedList<Coordenadas[]> listaW;
     private LinkedList<Coordenadas> listaV;
+    private LinkedList<Coordenadas> listaGana;
     private final Pila pilaW;
     private Coordenadas orden;
     private Coordenadas coorde[];
@@ -27,23 +28,25 @@ public class Operaciones {
     private int xFin;
     private int yIni;
     private int yFin;
-    
+
     public Operaciones(int dimA, int dimB) {
         this.dimA = dimA;
         this.dimB = dimB;
         matriz = new Nodo[dimA][dimB];
         listaW = new LinkedList<Coordenadas[]>();
         listaV = new LinkedList<Coordenadas>();
+        listaGana = new LinkedList<Coordenadas>();
         pilaW = new Pila();
 
     }
+
     public void realizaRecorrido() {
         this.turno = 1;
         int control = 0;
         boolean solucion = true;
         boolean primero = true;
         int i = xIni, j = yIni;
-      
+
         Coordenadas aux2 = new Coordenadas(i, j);
         listaV.add(aux2);
         this.imprimirMatriz();
@@ -59,7 +62,7 @@ public class Operaciones {
                 if (this.esGanador(i, j + 1)) {
                     Coordenadas cor = new Coordenadas(i, j + 1);
                     coorde[o] = cor;
-                    solucion=false;
+                    solucion = false;
                     o++;
                 }
             }
@@ -72,7 +75,7 @@ public class Operaciones {
                 if (this.esGanador(i, j - 1)) {
                     Coordenadas cor = new Coordenadas(i, j - 1);
                     coorde[o] = cor;
-                    solucion=false;
+                    solucion = false;
                     o++;
                 }
             }
@@ -85,7 +88,7 @@ public class Operaciones {
                 if (this.esGanador(i - 1, j)) {
                     Coordenadas cor = new Coordenadas(i - 1, j);
                     coorde[o] = cor;
-                    solucion=false;
+                    solucion = false;
                     o++;
                 }
             }
@@ -98,7 +101,7 @@ public class Operaciones {
                 if (this.esGanador(i + 1, j)) {
                     Coordenadas cor = new Coordenadas(i + 1, j);
                     coorde[o] = cor;
-                    solucion=false;
+                    solucion = false;
                     o++;
                 }
             }
@@ -141,10 +144,12 @@ public class Operaciones {
         this.imprimiListaW();
         this.imprimiListaV();
     }
-    public void asigIniFin(){
-          matriz[this.xIni][this.yIni].setA('I');
+
+    public void asigIniFin() {
+        matriz[this.xIni][this.yIni].setA('I');
         matriz[this.xFin][this.yFin].setA('S');
     }
+
     public boolean esGanador(int x, int y) {
         Boolean ganador = false;
         if (y >= 0 && y < this.dimB && x >= 0 && x < this.dimA) {
@@ -153,6 +158,41 @@ public class Operaciones {
             }
         }
         return ganador;
+    }
+
+    public void buscarRuta() {
+        listaGana.add(new Coordenadas(4, 4));
+        listaGana.add(new Coordenadas(3, 4));
+        listaGana.add(new Coordenadas(2, 4));
+        listaGana.add(new Coordenadas(1, 4));
+        listaGana.add(new Coordenadas(1, 3));
+        listaGana.add(new Coordenadas(1, 2));
+        listaGana.add(new Coordenadas(0, 2));
+        listaGana.add(new Coordenadas(0, 1));
+
+//        Coordenadas cor;
+//        Coordenadas cor2;
+//        int posgan = listaV.size();
+//        cor = listaW.getLast()[0];
+//        cor2 = listaV.getLast();
+//        System.out.println("g"+cor.getX());
+//        listaGana.add(cor);
+//        listaGana.add(cor2);
+//        for (int i = listaW.size() - 1; i > -1; i--) {
+//            if (listaW.get(i)[0].getX() == cor2.getX() && listaW.get(i)[0].getY() == cor2.getY()) {
+//                cor2 = listaV.get(i);
+//                cor = listaW.getLast()[0];
+//                listaGana.add(cor);
+//                listaGana.add(cor2);
+//            }else{
+//                if (listaW.get(i)[1].getX() == cor2.getX() && listaW.get(i)[1].getY() == cor2.getY()) {
+//                cor2 = listaV.get(i);
+//                cor = listaW.getLast()[1];
+//                listaGana.add(cor);
+//                listaGana.add(cor2);
+//            }
+//            }
+//        }
     }
 
     public boolean agregar(int x, int y) {
@@ -212,6 +252,20 @@ public class Operaciones {
         System.out.println("" + listaV.size());
     }
 
+    public void imprimiListaGana() {
+        System.out.println("___________________________________________");
+        System.out.println("");
+        for (int i = 0; i < listaGana.size(); i++) {
+            if (listaGana.get(i) != null) {
+                System.out.println("(" + listaGana.get(i).getX() + "," + listaGana.get(i).getY() + ")");
+            } else {
+                System.out.println("Hay basurapatron");
+            }
+        }
+        System.out.println("___________________________________________");
+        System.out.println("" + listaGana.size());
+    }
+
     public void imprimirMatriz() {
         for (int i = 0; i < dimA; i++) {
             for (int j = 0; j < dimB; j++) {
@@ -247,8 +301,6 @@ public class Operaciones {
     public void setDimB(int dimB) {
         this.dimB = dimB;
     }
-
-    
 
     public String[][] hacerLista() {
         String lista[][];
@@ -333,6 +385,10 @@ public class Operaciones {
 
     public LinkedList<Coordenadas[]> getListaW() {
         return listaW;
+    }
+
+    public LinkedList<Coordenadas> getListaGana() {
+        return listaGana;
     }
 
     public LinkedList<Coordenadas> getListaV() {
